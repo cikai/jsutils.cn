@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>tiny-book</title>
-	<link rel="stylesheet" type="text/css" href="monokai_sublime.min.css">
+	<link rel="stylesheet" type="text/css" href="/app/css/monokai_sublime.min.css">
 </head>
 <body>
 	<style type="text/css">
@@ -18,8 +18,17 @@
 			border-radius: 5px;
 		}
 	</style>
-	<div class="content"></div>
-	<script type="text/javascript" src="highlight.min.js"></script>
+
+	<div class="content">Hello</div>
+	
+	<script type="text/javascript">
+		var file = "app/html/http-server.html";
+		var reader = new FileReader();
+		var content = reader.readAsText();
+		console.log(content);
+	</script>
+
+	<script type="text/javascript" src="/app/js/highlight.min.js"></script>
 	<script type="text/javascript">
 		hljs.initHighlightingOnLoad();
 	</script>
