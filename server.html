@@ -1,0 +1,298 @@
+<h3>1.Ruby</h3>
+
+<h4>1.1 安装RVM</h4>
+
+<pre><code>curl -L https://get.rvm.io | bash</code></pre>
+
+<p>安装完成后重新login，使RVM生效。</p>
+
+<pre><code>/bin/bash -login</code></pre>
+
+<p>测试RVM是否安装成功，查看RVM信息。</p>
+
+<pre><code>rvm info</code></pre>
+
+<h4>1.2 修改RVM下载源为Ruby China的镜像</h4>
+
+<pre><code>echo &quot;ruby_url=https://cache.ruby-china.org/pub/ruby&quot; &gt; ~/.rvm/user/db
+或者
+sed -i &#39;s!ftp.ruby-lang.org/pub/ruby!cache.ruby-china.org/pub/ruby/!&#39; $rvm_path/config/db</code></pre>
+
+<h4>1.3 用RVM安装Ruby环境</h4>
+
+<pre><code>rvm requirements
+rvm autolibs disable
+rvm install 2.3.0</code></pre>
+
+<p>安装完成后，Ruby, Ruby Gems 就安装好了。</p>
+
+<h4>1.4 设置系统默认的Ruby版本</h4>
+
+<pre><code>rvm use 2.3.0 --default</code></pre>
+
+<h4>1.5 修改gem下载源为Ruby China的镜像</h4>
+
+<pre><code>gem sources --remove https://rubygems.org/
+gem sources -a https://gems.ruby-china.org/
+gem sources -l [请确保只有Ruby China的源地址]</code></pre>
+
+<h4>1.6 更新gem版本</h4>
+
+<pre><code>gem update --system </code></pre>
+
+<h3>2.Rails</h3>
+
+<pre><code>gem install rails -v=5.0.0.rc1</code></pre>
+
+<p>版本号根据自己的需求填写，不写版本会默认更新为当前稳定版。</p>
+
+<p>测试Rails是否安装成功，查看Rails信息。</p>
+
+<pre><code>rails -v</code></pre>
+
+<h3>3.Nodejs</h3>
+
+<pre><code>sudo apt-get install nodejs</code></pre>
+
+<h3>4.Bundler</h3>
+
+<h4>4.1 安装</h4>
+
+<pre><code>gem install bundler</code></pre>
+
+<h4>4.2 修改bundler下载源为Ruby China的镜像</h4>
+
+<pre><code>bundle config mirror.https://rubygems.org https://gems.ruby-china.org</code></pre>
+
+<h3>5.PostgreSQL</h3>
+
+<h4>5.1 安装</h4>
+
+<pre><code>sudo apt-get install postgresql</code></pre>
+
+<h4>5.2 启动与停止</h4>
+
+<pre><code>sudo /etc/init.d/postgresql start  # 启动
+sudo /etc/init.d/postgresql stop   # 停止</code></pre>
+
+<h4>5.3 设置postgres用户密码</h4>
+
+<p>以postgres这个系统用户的身份运行psql命令</p>
+
+<pre><code>sudo su postgres -c psql template1</code></pre>
+
+<p>设置密码</p>
+
+<pre><code>ALTER USER postgres WITH PASSWORD &#39;root&#39;; # 请替换密码root</code></pre>
+
+<h4>5.4 配置PostgreSQL远程访问</h4>
+
+<p>允许远程访问，需要修改两个配置文件。</p>
+
+<pre><code>文件位置：
+/etc/postgresql/9.3/main</code></pre>
+
+<p>1）postgresql.conf</p>
+
+<p>找到</p>
+
+<pre><code>listen_addresses = &#39;localhost&#39;</code></pre>
+
+<p>修改为</p>
+
+<pre><code>listen_addresses = &#39;*&#39;</code></pre>
+
+<p>2）pg_hba.conf</p>
+
+<p>在IPv4 local connections位置追加以下配置。</p>
+
+<pre><code>host all all 0.0.0.0/0 md5</code></pre>
+
+<p>如果不希望允许所有IP访问，可以将0.0.0.0设置为特定的IP地址。</p>
+
+<h4>5.5 创建postgres用户，并赋予权限</h4>
+
+<p>创建用户dbuser</p>
+
+<pre><code>CREATE USER dbuser WITH PASSWORD &#39;password&#39;;</code></pre>
+
+<p>赋给dbuser使用shell登录权限</p>
+
+<pre><code>ALTER ROLE dbuser LOGIN;</code></pre>
+
+<p>赋给dbuser管理数据库权限</p>
+
+<pre><code>ALTER ROLE dbuser CREATEDB;</code></pre>
+
+<h4>5.6 管理工具pgAdmin III</h4>
+
+<p><a href="https://www.pgadmin.org/">https://www.pgadmin.org/</a></p>
+
+<h3>6.Nginx</h3>
+
+<h4>6.1 安装</h4>
+
+<pre><code>sudo apt-get install nginx</code></pre>
+
+<h4>6.2 nginx配置</h4>
+
+<p>编辑nginx配置文件，位置： /etc/nginx/nginx.conf</p>
+
+<pre><code>worker_processes  4;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+events {
+worker_connections  1024;
+}
+
+http {
+include       /etc/nginx/mime.types;
+default_type  application/octet-stream;
+
+log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+&#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+&#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+
+access_log  /var/log/nginx/access.log  main;
+
+sendfile        on;
+#tcp_nopush     on;
+
+keepalive_timeout  65;
+
+#gzip  on;
+
+#include /etc/nginx/conf.d/*.conf;
+upstream deploy {
+server 127.0.0.1:8080;
+}
+
+server {
+listen 80;
+server_name your_server_ip; # change to match your URL
+root /var/www/your_project; # I assume your app is located at this location
+
+location / {
+# match the name of upstream directive which is defined above
+proxy_pass http://127.0.0.1:8080;
+proxy_set_header Host $host;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+
+location /test {
+proxy_pass http://0.0.0.0:3001;
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+}
+
+location ~* ^/assets/ {
+# Per RFC2616 - 1 year maximum expiry
+expires 1y;
+add_header Cache-Control public;
+# Some browsers still send conditional-GET requests if there&#39;s a
+# Last-Modified header or an ETag header even if they haven&#39;t
+# reached the expiry date sent in the Expires header.
+add_header Last-Modified &quot;&quot;;
+add_header ETag &quot;&quot;;
+break;
+}
+}
+}</code></pre>
+
+<h3>7.Puma</h3>
+
+<h4>7.1 启动</h4>
+
+<pre><code>bundle exec pumactl start</code></pre>
+
+<h4>7.2 配置启动生产模式</h4>
+
+<p>修改puma配置文件 /config/puma.rb</p>
+
+<pre><code>portENV.fetch(&quot;PORT&quot;) { 4000 }
+environmentENV.fetch(&quot;RAILS_ENV&quot;) { &quot;production&quot; }</code></pre>
+
+<p>声明启动puma时为生产环境。</p>
+
+<p>启动puma前，进入工程根目录，生成秘钥：</p>
+
+<pre><code>bin/rails secret</code></pre>
+
+<p>将秘钥添加到系统环境变量中：</p>
+
+<pre><code>export SECRET_KEY_BASE = 生成的秘钥</code></pre>
+
+<p>执行7.1中的启动命令，启动puma。</p>
+
+<h3>8.Rails部署相关问题</h3>
+
+<h4>8.1 解决ssh断开后，rails服务器停止问题</h4>
+
+<p>1）启动服务</p>
+
+<pre><code>nohup rails server</code></pre>
+
+<p>2）停止服务</p>
+
+<pre><code># 找出进程ID（PID）
+lsof -wni tcp:3000
+
+# 将进程kill掉
+kill -9 &lt;PID&gt;</code></pre>
+
+<h4>8.2 Rails路由配置（重点）</h4>
+
+<p>这部分和nginx反向代理对应，解决反向代理后，rails无法处理请求路径问题。</p>
+
+<pre><code>Rails.application.routes.draw do
+scope(:path =&gt; &#39;/test&#39;) do
+get &#39;ctrler_name/method_name&#39;
+root &#39;ctrler_name#index&#39;
+end
+end</code></pre>
+
+<h4>8.3 Rails配置允许访问静态资源</h4>
+
+<p>在开发模式或生产模式下，配置assets目录前缀</p>
+
+<p>文件位置：config/environments/environment.rb</p>
+
+<pre><code>config.assets.prefix = &#39;/test/assets&#39;</code></pre>
+
+<p>其中，/test 对应nginx.conf 中location请求的路径，例如：</p>
+
+<pre><code>nginx.conf
+----------
+location /test {
+...
+}</code></pre>
+
+<hr/>
+
+<p>！ 以下内容暂时保留 ！</p>
+
+<p>编辑 config/environments/production.rb，将</p>
+
+<pre><code>config.public_file_server.enabled = ENV[&#39;RAILS_SERVE_STATIC_FILE&#39;].present?</code></pre>
+
+<p>设置为</p>
+
+<pre><code>config.public_file_server.enabled = true</code></pre>
+
+<p>！ 以上内容暂时保留 ！</p>
+
+<hr/>
+
+<h4>8.4 解决Rails生产模式无法生成密钥问题</h4>
+
+<p>问题：项目根目录下执行 bin/rails secret，报找不到文件或目录。</p>
+
+<p>解决：项目根目录下执行</p>
+
+<pre><code>rake rails:update:bin</code></pre>
+
+<p>完成后，再次执行命令生成密钥。</p>
