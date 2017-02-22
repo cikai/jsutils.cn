@@ -10,7 +10,7 @@ router.get('/', async function (ctx, next) {
   var html = markdown.toHTML(md.toString());
 
   ctx.state = {
-  	title: "server-config",
+  	title: "PostgreSQL",
     content: html
   };
   ctx.response.type = 'text/html';

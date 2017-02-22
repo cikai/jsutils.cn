@@ -4,16 +4,37 @@
 } 
 
 body {
-  padding: 50px;
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
 }
 
 code {
   border-radius: 5px;
   font-family: Menlo;
+  width: 100%;
 }
 
 a {
   color: #00B7FF;
+}
+
+.catalog {
+  position: absolute;
+  width: 200px;
+  height: 800px;
+  float: left;
+  background: #F4F4F6;
+}
+
+.catalog p {
+  text-align: center;
+}
+
+.content {
+  position: absolute;
+  left: 200px;
+  padding: 0 20px 0 20px;
+  
 }

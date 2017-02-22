@@ -5,7 +5,13 @@ html
     link(rel='stylesheet', href='/stylesheets/monokai_sublime.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
-    script(src='/javascripts/highlight.min.js')
-    script.
-      hljs.initHighlightingOnLoad();
+    div.catalog
+      p 目  录
+      ul
+        li
+          a(href="/build", title="PostgreSQL") PostgreSQL
+    div.content
+      block content
+      script(src='/javascripts/highlight.min.js')
+      script.
+        hljs.initHighlightingOnLoad();
