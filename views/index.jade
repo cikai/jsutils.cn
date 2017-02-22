@@ -2,4 +2,8 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  div#content= content
+
+  script.
+    var content = document.getElementById("content");
+    content.innerHTML = content.innerText;
