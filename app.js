@@ -11,7 +11,8 @@ const logger = require('koa-logger');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
-const build = require('./routes/build');
+const docs = require('./routes/docs');
+const filelist = require('./routes/filelist');
 
 // middlewares
 app.use(convert(bodyparser));
@@ -33,7 +34,8 @@ app.use(async (ctx, next) => {
 
 router.use('/', index.routes(), index.allowedMethods());
 router.use('/users', users.routes(), users.allowedMethods());
-router.use('/build', build.routes(), build.allowedMethods());
+router.use('/docs', docs.routes(), docs.allowedMethods());
+router.use('/filelist', filelist.routes(), filelist.allowedMethods());
 
 app.use(router.routes(), router.allowedMethods());
 // response

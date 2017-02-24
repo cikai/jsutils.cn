@@ -2,15 +2,15 @@ var router = require('koa-router')();
 var fs = require("fs")
 var markdown = require("markdown").markdown;
 
-router.get('/', async function (ctx, next) {
+router.get('/:file', async function (ctx, next) {
   var markdown_dir = "docs/";
-  var file_name = "server-config.md";
+  var file_name = ctx.url.split("/")[2];
 
-  var md = fs.readFileSync(markdown_dir + file_name);
+  var md = fs.readFileSync(markdown_dir + file_name + ".md");
   var html = markdown.toHTML(md.toString());
 
   ctx.state = {
-  	title: "PostgreSQL",
+  	title: file_name,
     content: html
   };
   ctx.response.type = 'text/html';
