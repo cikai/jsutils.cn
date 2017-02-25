@@ -3,11 +3,11 @@ var fs = require("fs")
 var markdown = require("markdown").markdown;
 
 router.get('/:file', async function (ctx, next) {
-  var markdown_dir = "docs/";
-  var file_name = ctx.url.split("/")[2];
+  let markdown_dir = "docs/";
+  let file_name = ctx.url.split("/")[2];
 
-  var md = fs.readFileSync(markdown_dir + file_name + ".md");
-  var html = markdown.toHTML(md.toString());
+  let md = fs.readFileSync(markdown_dir + file_name + ".md");
+  let html = markdown.toHTML(md.toString());
 
   ctx.state = {
   	title: file_name,
