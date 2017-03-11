@@ -7,7 +7,8 @@ window.onload = function() {
       var list =  "";
       filelist.forEach(function(value) {
         var file = value.split(".")[0];
-        if(value != ".DS_Store") {
+        if(value != ".DS_Store" && value != "index.md" ) {
+          console.log(value);
           list += "<li>";
           list += "<a href='/docs/";
           list += file;

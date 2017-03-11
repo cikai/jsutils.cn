@@ -1,12 +1,17 @@
 var router = require('koa-router')();
+var fs = require("fs")
+var markdown = require("markdown").markdown;
 
 router.get('/', async function (ctx, next) {
-  ctx.state = {
-    title: 'tiny book 迷你小书',
-    content: "github @ <a href='https://github.com/cikai/tiny-book' target='_blank'>cikai/tiny-book</a>"
-  };
+  let md = fs.readFileSync("docs/index.md");
+  let html = markdown.toHTML(md.toString());
 
+  ctx.state = {
+    content: html
+  };
+  ctx.response.type = 'text/html';
   await ctx.render('index', {
   });
-})
+});
+
 module.exports = router;

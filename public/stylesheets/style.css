@@ -19,6 +19,11 @@ a {
   color: #00B7FF;
 }
 
+img {
+  width: 100%;
+  height: 100%;
+}
+
 .catalog {
   margin-top: 0;
   padding-left: 25px;
