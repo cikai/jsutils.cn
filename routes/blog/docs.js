@@ -3,19 +3,19 @@ var fs = require("fs")
 var markdown = require("markdown").markdown;
 
 router.get('/', async function (ctx, next) {
-  let md = fs.readFileSync("docs/index.md");
+  let md = fs.readFileSync("public/blog/docs/index.md");
   let html = markdown.toHTML(md.toString());
 
   ctx.state = {
     content: html
   };
   ctx.response.type = 'text/html';
-  await ctx.render('docs', {
+  await ctx.render('blog/docs', {
   });
 });
 
 router.get('/:file', async function (ctx, next) {
-  let markdown_dir = "docs/";
+  let markdown_dir = "public/blog/docs/";
   let file_name = decodeURI(ctx.url).split("/")[2];
 
   let md = fs.readFileSync(markdown_dir + file_name + ".md");
@@ -26,7 +26,7 @@ router.get('/:file', async function (ctx, next) {
     content: html
   };
   ctx.response.type = 'text/html';
-  await ctx.render('docs', {
+  await ctx.render('blog/docs', {
   });
 });
 

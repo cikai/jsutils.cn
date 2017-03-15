@@ -3,7 +3,7 @@ var fs = require('fs')
 var path = require('path');
 
 router.get('/', function (ctx, next) {
-  let doc_path = path.join(__dirname, '../docs');
+  let doc_path = path.join(__dirname, '../../public/blog/docs');
   let filelist = fs.readdirSync(doc_path);
   
   ctx.body = filelist;

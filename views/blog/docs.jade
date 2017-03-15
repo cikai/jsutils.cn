@@ -4,8 +4,8 @@ html
     meta(http-equiv="Content-Type",content="text/html; charset=utf-8")
     meta(name="viewport",content="width=device-width, initial-scale=1")
     title= title
-    link(rel='stylesheet', href='/stylesheets/monokai_sublime.min.css')
-    link(rel='stylesheet', href='/stylesheets/docs.css')
+    link(rel='stylesheet', href='/blog/css/monokai_sublime.min.css')
+    link(rel='stylesheet', href='/blog/css/docs.css')
   body
     div.catalog#catalog
       p 目  录
@@ -13,8 +13,8 @@ html
       h1= title
       div#content= content
 
-      script(src='/javascripts/catalog.js')
-      script(src='/javascripts/highlight.min.js')
+      script(src='/blog/js/catalog.js')
+      script(src='/blog/js/highlight.min.js')
       script.
         var content = document.getElementById("content");
         content.innerHTML = content.innerText;
