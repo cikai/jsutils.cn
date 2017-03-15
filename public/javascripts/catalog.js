@@ -21,7 +21,7 @@ window.onload = function() {
       var dom = "";
       dom += "<p>目  录</p>";
       dom += "<ul>";
-      dom += "<li><a href='/'>首页</a></li>";
+      dom += "<li><a href='/docs'>首页</a></li>";
       dom += list;
       dom += "</ul>";
       document.getElementById("catalog").innerHTML = dom;

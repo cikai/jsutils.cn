@@ -1,9 +1,6 @@
 extends layout
 
 block content
-  h1= title
-  div#content= content
-
-  script.
-    var content = document.getElementById("content");
-    content.innerHTML = content.innerText;
+  div.catalog
+    a(href="/docs") BLOG
+  div.content= content
