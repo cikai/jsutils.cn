@@ -13,6 +13,7 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 const docs = require('./routes/blog/docs');
 const filelist = require('./routes/blog/filelist');
+const osinfo = require('./routes/osinfo');
 
 // middlewares
 app.use(convert(bodyparser));
@@ -36,6 +37,7 @@ router.use('/', index.routes(), index.allowedMethods());
 router.use('/users', users.routes(), users.allowedMethods());
 router.use('/docs', docs.routes(), docs.allowedMethods());
 router.use('/filelist', filelist.routes(), filelist.allowedMethods());
+router.use('/osinfo', osinfo.routes(), osinfo.allowedMethods());
 
 app.use(router.routes(), router.allowedMethods());
 // response
