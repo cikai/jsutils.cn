@@ -1,5 +1,7 @@
 ## Tiny-Book 迷你小书
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/cikai/tiny-book.svg)](https://greenkeeper.io/)
+
 ### 欢迎提交代码 :yum: github@[cikai/tiny-book](https://github.com/cikai/tiny-book) :point_left:
 
 
